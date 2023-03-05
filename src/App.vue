@@ -9,6 +9,9 @@
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import store from "@/scripts/store";
+import axios from "axios";
+import {useRoute} from "vue-router";
+import {watch} from "vue";
 
 export default {
   name: 'App',
@@ -18,11 +21,20 @@ export default {
   },
 
   setup(){
-    const id = sessionStorage.getItem("id"); // id 값 가져오기
+    const check =() =>{
+      axios.get("api/account/check").then(({data})=>
+      {
+        console.log(data);
 
-    if(id){ // 값이 있다면 store에 commit
-      store.commit("setAccount", id);
+        store.commit("setAccount", data || 0);
+
+      })
     }
+    const route = useRoute();
+
+    // 경로가 바뀔때마다 감시
+    watch(route, ()=>{
+      check();})
   }
 }
 </script>

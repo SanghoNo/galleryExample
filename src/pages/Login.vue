@@ -64,6 +64,7 @@ export default {
     const submit = () => {
       axios.post("/api/account/login", state.form).then((res) => {
         store.commit('setAccount', res.data);
+        console.log(res.data);
         sessionStorage.setItem("id", res.data); //세션에 id 저장
         router.push("/"); //로그인후 root로 이동
         window.alert("로그인하였습니다.");
